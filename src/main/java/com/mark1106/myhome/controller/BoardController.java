@@ -2,6 +2,7 @@ package com.mark1106.myhome.controller;
 
 import com.mark1106.myhome.model.Board;
 import com.mark1106.myhome.repository.BoardRepository;
+import com.mark1106.myhome.validator.BoardValidator;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -21,6 +22,9 @@ public class BoardController {
 
     @Autowired
     private BoardRepository boardRepository;
+
+    @Autowired
+    private BoardValidator boardValidator;
 
     @GetMapping("/list")
     public String list(Model model){
@@ -42,6 +46,7 @@ public class BoardController {
 
     @PostMapping("/form")
     public String formSubmit(@Valid Board board, BindingResult bindingResult){
+        boardValidator.validate(board,bindingResult);
         if(bindingResult.hasErrors()){
             return "board/form";
         }
