@@ -2,11 +2,13 @@ package com.mark1106.myhome.controller;
 
 import com.mark1106.myhome.model.Board;
 import com.mark1106.myhome.repository.BoardRepository;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,7 +41,10 @@ public class BoardController {
     }
 
     @PostMapping("/form")
-    public String formSubmit(@ModelAttribute Board board){
+    public String formSubmit(@Valid Board board, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            return "board/form";
+        }
         boardRepository.save(board);
         return "redirect:/board/list";
     }
