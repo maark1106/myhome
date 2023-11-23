@@ -46,7 +46,6 @@ class BoardApiController {
 
     @PutMapping("/boards/{id}")
     Board replaceBoard(@RequestBody Board newBoard, @PathVariable Long id) {
-
         return repository.findById(id)
                 .map(Board -> {
                     Board.setTitle(newBoard.getTitle());
